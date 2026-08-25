@@ -159,7 +159,9 @@ def get_recommended_developers(project_id):
             MATCH (p:Project {id: $project_id})
 
             OPTIONAL MATCH (p)-[:USES]->(direct_tech:Technology)
-            OPTIONAL MATCH (direct_developer:Developer)-[direct_skill:HAS_SKILL]->(direct_tech)
+            OPTIONAL MATCH (direct_developer:Developer)-[
+                direct_skill:HAS_SKILL
+            ]->(direct_tech)
 
             WITH
                 p,
@@ -173,7 +175,9 @@ def get_recommended_developers(project_id):
 
             OPTIONAL MATCH (p)-[:USES]->(used_tech:Technology)
             MATCH (used_tech)-[:RELATED_TO]-(related_tech:Technology)
-            OPTIONAL MATCH (related_developer:Developer)-[related_skill:HAS_SKILL]->(related_tech)
+            OPTIONAL MATCH (related_developer:Developer)-[
+                related_skill:HAS_SKILL
+            ]->(related_tech)
 
             WITH
                 direct_matches,
@@ -196,33 +200,57 @@ def get_recommended_developers(project_id):
                 developer_id,
                 developer,
                 matches,
-                any(match IN matches WHERE match.match_type = "direct") AS has_direct_match
+                any(
+                    match IN matches
+                    WHERE match.match_type = "direct"
+                ) AS has_direct_match
+
+            WITH
+                developer_id,
+                developer,
+                matches,
+                has_direct_match
+
+            WITH
+                developer_id,
+                developer,
+                has_direct_match,
+                [
+                    match IN matches
+                    WHERE
+                        has_direct_match = false
+                        OR match.match_type = "direct"
+                ] AS filtered_matches
 
             WITH
                 developer_id,
                 developer,
                 CASE
-                    WHEN has_direct_match THEN "direct"
+                    WHEN has_direct_match
+                    THEN "direct"
                     ELSE "related"
                 END AS match_type,
-                matches
+                filtered_matches
 
             WITH
                 developer_id,
                 developer,
                 match_type,
-                matches,
+                filtered_matches,
                 reduce(
                     score = 0,
-                    match IN matches |
+                    match IN filtered_matches |
                     score +
                     CASE
-                        WHEN match.match_type = "direct" THEN 2
+                        WHEN match.match_type = "direct"
+                        THEN 2
                         ELSE 1
                     END +
                     CASE
-                        WHEN match.proficiency = "Advanced" THEN 1
-                        WHEN match.proficiency = "Intermediate" THEN 0.5
+                        WHEN match.proficiency = "Advanced"
+                        THEN 1
+                        WHEN match.proficiency = "Intermediate"
+                        THEN 0.5
                         ELSE 0
                     END
                 ) AS score
@@ -231,7 +259,8 @@ def get_recommended_developers(project_id):
                 developer_id,
                 developer,
                 match_type,
-                [match IN matches |
+                [
+                    match IN filtered_matches |
                     {
                         technology: match.technology,
                         proficiency: match.proficiency,

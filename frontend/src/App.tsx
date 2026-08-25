@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  LayoutDashboard,
-  Users,
-  FolderKanban,
-  Cpu,
-  Network,
-} from "lucide-react";
+import { LayoutDashboard, Users, FolderKanban, Network } from "lucide-react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { getGraphStats } from "./services/api";
 import type { GraphStats } from "./types";
@@ -77,13 +71,6 @@ function AppLayout() {
               label="Projects"
               active={location.pathname.startsWith("/projects")}
             />
-
-            <NavItem
-              to="/technologies"
-              icon={<Cpu size={18} />}
-              label="Technologies"
-              active={location.pathname.startsWith("/technologies")}
-            />
           </nav>
 
           <div className="border-t border-slate-200 p-4">
@@ -101,6 +88,28 @@ function AppLayout() {
       </aside>
 
       <main className="lg:pl-64">
+        <div className="flex items-center gap-2 overflow-x-auto border-b border-slate-200 bg-white px-4 py-3 lg:hidden">
+          <NavItem
+            to="/"
+            icon={<LayoutDashboard size={16} />}
+            label="Overview"
+            active={isOverview}
+          />
+
+          <NavItem
+            to="/developers"
+            icon={<Users size={16} />}
+            label="Developers"
+            active={location.pathname.startsWith("/developers")}
+          />
+
+          <NavItem
+            to="/projects"
+            icon={<FolderKanban size={16} />}
+            label="Projects"
+            active={location.pathname.startsWith("/projects")}
+          />
+        </div>
         <header className="flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6">
           <div>
             <h1 className="text-sm font-semibold">
@@ -184,6 +193,41 @@ function Overview({
           value={loading ? "..." : String(stats?.technologies ?? 0)}
           description="Skills and tools"
         />
+      </div>
+      <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="flex items-start gap-4">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600">
+            <Network size={20} />
+          </div>
+
+          <div>
+            <h3 className="font-semibold">Explore the developer graph</h3>
+
+            <p className="mt-1 max-w-2xl text-sm leading-6 text-slate-500">
+              DevGraph connects developers, projects and technologies so you can
+              discover relevant people through their skills and technology
+              relationships.
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-2 text-xs font-medium text-slate-500">
+              <span className="rounded-full bg-slate-100 px-3 py-1.5">
+                Developer → Skill
+              </span>
+
+              <span className="rounded-full bg-slate-100 px-3 py-1.5">
+                Developer → Project
+              </span>
+
+              <span className="rounded-full bg-slate-100 px-3 py-1.5">
+                Project → Technology
+              </span>
+
+              <span className="rounded-full bg-slate-100 px-3 py-1.5">
+                Technology → Related Technology
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

@@ -165,7 +165,8 @@ function ProjectDetailPage() {
             <h2 className="text-lg font-semibold">Recommended developers</h2>
 
             <p className="text-sm text-slate-500">
-              Developers matched through their skills and related technologies.
+              Developers connected to this project through direct skills or
+              related technology relationships in the graph.
             </p>
           </div>
         </div>
@@ -176,7 +177,7 @@ function ProjectDetailPage() {
           <div className="grid gap-4 lg:grid-cols-2">
             {recommendations.map((developer) => (
               <Link
-                key={`${developer.developer_id}-${developer.match_type}`}
+                key={developer.developer_id}
                 to={`/developers/${developer.developer_id}`}
                 className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
               >
@@ -226,6 +227,13 @@ function ProjectDetailPage() {
             ))}
           </div>
         )}
+        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3">
+          <p className="text-xs leading-5 text-slate-500">
+            Match scores prioritize direct technology matches and higher
+            proficiency levels. Related-skill matches are also considered
+            through technology relationships in the graph.
+          </p>
+        </div>
       </section>
     </div>
   );

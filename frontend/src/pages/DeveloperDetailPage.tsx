@@ -147,9 +147,10 @@ function DeveloperDetailPage() {
         ) : (
           <div className="space-y-3">
             {developer.projects.map((project) => (
-              <div
+              <Link
                 key={project.id}
-                className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm"
+                to={`/projects/${project.id}`}
+                className="block rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-md"
               >
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
@@ -162,7 +163,7 @@ function DeveloperDetailPage() {
 
                   <span className="text-sm text-slate-400">{project.year}</span>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
