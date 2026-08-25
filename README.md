@@ -1,6 +1,3 @@
-Yes. Copy **everything inside this block** directly into `README.md`:
-
-````markdown
 # DevGraph
 
 A graph-powered developer ecosystem explorer built with React, FastAPI, and CognoDB.
@@ -32,6 +29,7 @@ A relational database could store developers, projects, and technologies, but mu
 
 (Developer) --- WORKED_ON ---> (Project)
 ```
+
 ````
 
 ### Nodes
@@ -190,3 +188,4 @@ Database credentials are loaded from environment variables and excluded from Git
 ## Author
 
 Qozeem Salami
+````

@@ -21,7 +21,7 @@ frontend_url = os.getenv("FRONTEND_URL")
 if frontend_url:
     frontend_url = frontend_url.rstrip("/")
 
-print(frontend_url, "....checking....")
+
 
 app.add_middleware(
     CORSMiddleware,
