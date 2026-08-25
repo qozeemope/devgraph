@@ -18,6 +18,7 @@ app = FastAPI(
 
 frontend_url = os.getenv("FRONTEND_URL")
 
+print(frontend_url, "....checking....")
 
 app.add_middleware(
     CORSMiddleware,
