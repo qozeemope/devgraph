@@ -2,35 +2,33 @@
 
 A graph-powered developer ecosystem explorer built with React, FastAPI, and CognoDB.
 
-DevGraph lets users explore developers, projects, technologies, and their relationships. It also recommends developers for a project based on direct and related technical skills.
+DevGraph lets users explore developers, projects, technologies, and their relationships. The system recommends developers for a project based on both direct and related technical skills.
 
 ## Why a graph database?
 
 The core of DevGraph is relationship discovery.
 
-A relational database could store developers, projects, and technologies, but multi-step relationship queries become more complex. A graph database makes these connections explicit and makes traversal a natural way to discover related developers and skills.
+A relational database can store developers, projects, and technologies. But multi-step relationship queries become complex and slow. A graph database makes connections explicit. Traversal becomes a natural way to discover related developers and skills.
 
 ## Data Model
 
-```text
+```
 (Developer)
-     |
- HAS_SKILL
-     |
+|
+HAS_SKILL
+|
 (Technology) <--- RELATED_TO ---> (Technology)
-     |
-    USES
-     |
+|
+USES
+|
 (Project)
-     |
- BELONGS_TO
-     |
-  (Domain)
+|
+BELONGS_TO
+|
+(Domain)
 
 (Developer) --- WORKED_ON ---> (Project)
 ```
-
-````
 
 ### Nodes
 
@@ -61,7 +59,7 @@ Find developers whose skills directly match a project's technologies.
 
 The application performs a multi-hop traversal:
 
-```text
+```
 Project -> Technology -> RELATED_TO -> Technology -> HAS_SKILL -> Developer
 ```
 
@@ -90,7 +88,7 @@ This finds developers with skills related to the technologies used by a project.
 
 ## Project Structure
 
-```text
+```
 devgraph/
 ├── backend/
 │   └── app/
@@ -188,4 +186,3 @@ Database credentials are loaded from environment variables and excluded from Git
 ## Author
 
 Qozeem Salami
-````
