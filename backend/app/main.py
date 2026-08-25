@@ -1,11 +1,13 @@
 import os
 
 from fastapi import FastAPI
+from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
 from .database import verify_connection
 from .routers import developers, projects, technologies, stats
 
+load_dotenv()
 
 app = FastAPI(
     title="DevGraph API",
@@ -14,10 +16,7 @@ app = FastAPI(
 )
 
 
-frontend_url = os.getenv(
-    "FRONTEND_URL",
-    "http://localhost:5173",
-)
+frontend_url = os.getenv("FRONTEND_URL")
 
 
 app.add_middleware(
